@@ -32,9 +32,12 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const Item = props => {
-  const city = props.date;
+  const city = props.city;
+  const data = props.data
   const classes = useStyles();
   const [openId, setOpenId] = React.useState(null);
+
+  //console.log(data)
 
   const handleOpen = id => {
     setOpenId(id);
@@ -74,9 +77,12 @@ const Item = props => {
   );
 };
 
-export default function NestedList() {
+export default function NestedList(props) {
   const classes = useStyles();
   const cities = Cities;
+  const dataCities = props.dataCities
+
+  //console.log(dataCities['Rio Branco'])
 
   return (
     <List
@@ -90,7 +96,7 @@ export default function NestedList() {
       className={classes.root}
     >
       {cities.map(city => (
-        <Item key={city._id} date={city} />
+        <Item key={city._id} city={city} data='a'/>
       ))}
     </List>
   );

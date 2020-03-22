@@ -25,7 +25,7 @@ SECRET_KEY = '!chf9t*xi_&&p$o9u=e4+7^+wf2layv9z5t#kl&lhcv!uo_*qa'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -39,7 +39,6 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'corsheaders',
-    'bulk_admin',
     'api'
 ]
 
@@ -51,6 +50,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
 ]
 
 ROOT_URLCONF = 'covidac.urls'
@@ -134,3 +134,14 @@ MEDIA_ROOT = 'media/'
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'static'),
 ] 
+
+# CORS
+
+CORS_ORIGIN_ALLOW_ALL = True
+CORS_ALLOW_CREDENTIALS = True
+CORS_ORIGIN_WHITELIST = [
+    'https://localhost:3000',
+]
+CORS_ORIGIN_REGEX_WHITELIST = [
+    'localhost:3000',
+]

@@ -16,11 +16,10 @@ import MenuIcon from "@material-ui/icons/Menu";
 import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles, useTheme } from "@material-ui/core/styles";
-import { Scrollbars } from "react-custom-scrollbars";
 import Mapa from "./Mapa";
 import ListCities from "./ListCities";
-import SimpleBar from "simplebar-react";
-import "simplebar/dist/simplebar.min.css";
+import api from '../services/api'
+
 
 const drawerWidth = 240;
 
@@ -84,6 +83,23 @@ export default function ResponsiveDrawer(props) {
   const classes = useStyles();
   const theme = useTheme();
   const [mobileOpen, setMobileOpen] = React.useState(false);
+  const [cities, setCities] = React.useState()
+
+  React.useEffect(() => {
+    async function loadCities(){
+      const response = await api.get('/all-cities/')
+      setCities(response.data)
+      console.log(cities)
+    }
+
+    loadCities()
+
+    const intervalId = setInterval(loadCities,10000)
+
+    return () => clearInterval(intervalId)
+
+  }, [])
+  
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
@@ -95,7 +111,7 @@ export default function ResponsiveDrawer(props) {
         <img src="/images/covido.png" alt="logo" className={classes.logo} />
       </div>
       <Divider />
-      <ListCities />
+      <ListCities dataCities={cities}/>
     </div>
   );
 
@@ -140,7 +156,6 @@ export default function ResponsiveDrawer(props) {
         </Hidden>
 
         <Hidden xsDown implementation="css">
-          <SimpleBar style={{ maxHeight: 100 }}>
             <Drawer
               classes={{
                 paper: classes.drawerPaper
@@ -150,11 +165,10 @@ export default function ResponsiveDrawer(props) {
             >
               {drawer}
             </Drawer>
-          </SimpleBar>
         </Hidden>
       </nav>
       <main className={classes.content}>
-        <Mapa />
+        <Mapa dataCities={cities}/>
       </main>
     </div>
   );
