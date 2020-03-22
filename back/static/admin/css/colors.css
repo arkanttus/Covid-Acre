@@ -1,0 +1,96 @@
+/* DIV COLORS */
+
+#header
+{
+    background: #1a2226;
+    color: #ffffff;
+}
+
+#branding h1 a:visited
+{
+    color: #ffffff;
+}
+
+.module h2, .module caption, .inline-group h2
+{
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+    background: #2c3b41;
+}
+
+div.breadcrumbs
+{
+    
+    background: #1e282c;
+    font-weight: bold;
+    color: #ffffff;
+}
+
+/* TABLE */
+
+.module > table
+{
+    border: 1px solid #d5d5d5;
+
+}
+
+.module  table  td, th
+{
+    border: 1px solid #d5d5d5;
+    border-style: solid none;
+}
+
+/* AÇÕES RÁPIDAS */
+
+#content-related {
+    background: #2c3b41;
+    color: #ffffff;
+}
+
+#content-related .module h2 {
+    background: #1a2226;
+    color:#ffffff;
+}
+
+#content-related h3 {
+    color: #ffffff;
+}
+
+#content-related a
+{
+    color: #a2bbc5;
+}
+
+#content-related a:hover
+{
+    color: #ffffff;
+}
+
+/* LINKS */
+
+div.breadcrumbs a
+{
+    font-weight: normal;
+}
+
+a:link, a:visited {
+    color: #444;
+    text-decoration: none;
+}
+
+a:focus, a:hover {
+    color: #333;
+}
+
+/* RESPONSIVE */
+
+@media (min-width: 1024px) {
+    .dashboard #content {
+        width: auto;
+    }
+    
+    .colMS {
+        margin-right: 450px;
+        margin-left: 150px;
+    }
+}

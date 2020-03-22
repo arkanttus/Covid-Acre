@@ -1,0 +1,57 @@
+.sala-banner
+{
+    background-image: linear-gradient(to right, #2F3849 50%, #3f4a5e);
+}
+
+.post-foto-perfil
+{
+    max-width: 6%;
+    border-radius: 40px;   
+    float: left;
+    margin-right: 10px;
+}
+
+.post-titulo
+{
+    margin-bottom: 0;
+}
+
+.post-card-ranking-card:hover
+{
+    color: #fff !important;
+    background-color: #1cc88a;
+    border-color: #1cc88a;
+}
+
+.post-card
+{
+    border-top: 1px solid #1cc88a;
+    border-right: 1px solid #1cc88a;
+    border-bottom: 1px solid #1cc88a;
+    border-left: .25rem solid #1cc88a;
+}
+
+.post-card-jogar-botao:hover
+{
+    color: #fff !important;
+    background-color: #1cc88a;
+    border-color: #1cc88a;
+}
+
+.btn-custom {
+    border: 1px dashed #1cc88a !important;
+}
+
+.btn-custom:hover {
+    color: #1cc88a;
+}
+
+.nav-link-sala-custom
+{
+    color: white!important;
+}
+
+.nav-link-sala-custom:hover
+{
+    background-color: #4e73df;
+}

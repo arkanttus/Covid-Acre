@@ -1,0 +1,37 @@
+.card-header-pergunta {
+    padding: 0.5rem;
+    /*background-image: linear-gradient(90deg, #4e73df 30% , #1565c0 100%);
+    background-size: cover;*/
+    border-radius: 0% !important;
+}
+
+.icon-apagar {
+    font-size: 1.2rem;
+}
+
+.card-pergunta {
+    border-left: .25rem solid #4e73df;
+}
+
+.form-pergunta {
+    width: 95%;
+}
+
+.form-custom {
+    outline: 0;
+    border-width: 0 0 2px;
+    border-color: blue;
+    background-color: transparent;
+}
+
+.form-custom:focus {
+    border-color: green
+}
+
+.form-control {
+    width: 0%;
+}
+
+.formAlt {
+    /*width: 0% !important;*/
+}

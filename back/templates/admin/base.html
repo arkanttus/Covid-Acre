@@ -1,0 +1,11 @@
+{% extends "admin/base.html" %}
+
+{% load static %}
+{% block extrastyle %}
+    <link rel="stylesheet" type="text/css" href="{% static "admin/css/colors.css" %}">
+{% endblock %}
+
+{% block userlinks %}
+    <a href="{% url 'admin:password_change' %}" style='font-weight: bold;'>Alterar senha</a> /
+    <a href="{% url 'admin:logout' %}" style='font-weight: bold;'>Sair</a>
+{% endblock %}

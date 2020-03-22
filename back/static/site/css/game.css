@@ -1,0 +1,47 @@
+.question
+{
+    color: #ffffff;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.question:hover
+{
+    filter:brightness(70%);
+    transition: all 0.3s;
+}
+
+.question-grey
+{
+    background-color: #9e9e9e;
+}
+
+.question-danger
+{
+    background-color: #f44336;
+}
+
+.question-warning
+{
+    background-color: #ffc107;
+}
+
+.question-orange
+{
+    background-color: #ffa726;
+}
+
+.question-primary
+{
+    background-color: #0091ea;
+}
+
+.question-dp
+{
+    background-color: #311b92;
+}
+
+.question-success
+{
+    background-color: #9ccc65;
+}
