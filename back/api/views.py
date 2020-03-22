@@ -9,16 +9,31 @@ from .models import Cidade, Caso
 def all_cities(request):
     cidades = dict()
 
+    cidades['Acre'] = {
+        'suspeitos': 0,
+        'confirmados': 0,
+        'descartados': 0,
+        'recuperados': 0,
+        'obitos': 0
+    }
+
     for cidade in Cidade.objects.prefetch_related('casos'):
         casos = [caso.status for caso in cidade.casos.all()]
-        print(casos)
+
+        s,c,d,r,o = casos.count('S'), casos.count('C'), casos.count('D'), casos.count('R'),casos.count('O')
+
         cidades[cidade.nome] = {
-            "suspeitos": casos.count('S'),
-            "confirmados": casos.count('C'),
-            "descartados": casos.count('D'),
-            "recuperados": casos.count('R'),
-            "obitos": casos.count('O'),
+            "suspeitos": s,
+            "confirmados": c,
+            "descartados": d,
+            "recuperados": r,
+            "obitos": o,
         }
-        print(cidades)
+       
+        cidades['Acre']['suspeitos'] += s
+        cidades['Acre']['confirmados'] += c
+        cidades['Acre']['descartados'] += d
+        cidades['Acre']['recuperados'] += r
+        cidades['Acre']['obitos'] += o
 
     return Response(cidades)
