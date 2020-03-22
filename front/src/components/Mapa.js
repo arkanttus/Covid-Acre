@@ -3,6 +3,9 @@ import { withStyles, makeStyles } from "@material-ui/styles";
 import Typography from "@material-ui/core/Typography";
 import Popover from "@material-ui/core/Popover";
 import Divider from "@material-ui/core/Divider";
+import Grid from "@material-ui/core/Grid";
+import Card from '@material-ui/core/Card';
+import CardContent from '@material-ui/core/CardContent';
 import Confirmado from '@material-ui/icons/ThumbUp';
 import Descartado from '@material-ui/icons/ThumbDown';
 import Morte from '@material-ui/icons/SentimentVeryDissatisfied';
@@ -11,15 +14,36 @@ import { Cities } from "./Cities";
 import { ListItemIcon, ListItemText, List, ListItem } from "@material-ui/core";
 
 const styles = {
+  root: {
+    flexGrow: 1,
+  },
   paper: {
-    padding: "15px",
+    padding: 10,
   },
   popover: {
     pointerEvents: "none"
   },
   mapa: {
     maxHeight: "550px"
+  },
+  customGridItemCard: {
+    ['@media (max-width:600px)']: {
+      display: 'flex',
+      justifyContent: 'center',
+      width: 'inherit'
+    },
+  },
+  customListItemTextCard: {
+    ['@media (max-width:600px)']: {
+      flex: 'initial'
+    }
+  },
+  containerRoot: {
+    ['@media (max-width:600px)']: {
+      paddingTop: '5%'
+    }
   }
+
 };
 
 class Mapa extends React.Component {
@@ -67,6 +91,7 @@ class Mapa extends React.Component {
     const data = this.props.dataCities ? this.props.dataCities : null
 
     return (
+      <>
       <svg
         _ngcontent-c18=""
         xmlnsXlink="http://www.w3.org/1999/xlink"
@@ -120,26 +145,26 @@ class Mapa extends React.Component {
                   </Typography>
                   <Divider/>
                     <List component="div" disablePadding>
-                      <ListItem >
-                        <ListItemIcon>
+                      <ListItem style={{ padding: 5 }}>
+                        <ListItemIcon style={{ minWidth: 32 }}>
                           <Suspeito />
                         </ListItemIcon>
                         <ListItemText primary={`Suspeitos: ${data ? data[m.nome].suspeitos : 0}`} />
                       </ListItem>
-                      <ListItem >
-                        <ListItemIcon>
+                      <ListItem style={{ padding: 5 }}>
+                        <ListItemIcon style={{ minWidth: 32 }}>
                           <Confirmado />
                         </ListItemIcon>
                         <ListItemText primary={`Confirmados: ${data ? data[m.nome].confirmados : 0}`} />
                       </ListItem>
-                      <ListItem >
-                        <ListItemIcon>
+                      <ListItem style={{ padding: 5 }}>
+                        <ListItemIcon style={{ minWidth: 32 }}>
                           <Descartado />
                         </ListItemIcon>
                         <ListItemText primary={`Descartados: ${data ? data[m.nome].descartados : 0}`} />
                       </ListItem>
-                      <ListItem >
-                        <ListItemIcon>
+                      <ListItem style={{ padding: 5 }}>
+                        <ListItemIcon style={{ minWidth: 32 }}>
                           <Morte />
                         </ListItemIcon>
                         <ListItemText primary={`Mortes: ${data ? data[m.nome].obitos : 0}`} />
@@ -150,6 +175,49 @@ class Mapa extends React.Component {
           ))}
         </g>
       </svg>
+      
+      <Grid container className={classes.containerRoot}>
+        <Grid item xs={12}>
+          <Card className={classes.root}>
+            <CardContent>
+            <Typography variant='h5' component='h5'>
+                  Acre
+                  </Typography>
+              <Typography className={classes.title} color="textSecondary" gutterBottom>
+                Visão Geral
+              </Typography>
+              <Grid container>
+                <Grid item xs={12} sm={6} md={3} className={classes.customGridItemCard}>
+                  <ListItemIcon style={{ minWidth: 32 }}>
+                    <Suspeito />
+                  </ListItemIcon>
+                  <ListItemText className={classes.customListItemTextCard} primary={`Suspeitos: ${data ? data['Acre'].suspeitos : 0}`} />
+                </Grid>
+                <Grid item xs={12} sm={6} md={3} className={classes.customGridItemCard}>
+                  <ListItemIcon style={{ minWidth: 32 }}>
+                    <Confirmado />
+                  </ListItemIcon>
+                  <ListItemText className={classes.customListItemTextCard} primary={`Confirmados: ${data ? data['Acre'].confirmados : 0}`} />
+                </Grid>
+                <Grid item xs={12} sm={6} md={3} className={classes.customGridItemCard}>
+                  <ListItemIcon style={{ minWidth: 32 }}>
+                    <Descartado />
+                  </ListItemIcon>
+                  <ListItemText className={classes.customListItemTextCard} primary={`Descartados: ${data ? data['Acre'].descartados : 0}`} />
+                </Grid>
+                <Grid item xs={12} sm={6} md={3} className={classes.customGridItemCard}>
+                  <ListItemIcon style={{ minWidth: 32 }}>
+                    <Morte />
+                  </ListItemIcon>
+                  <ListItemText className={classes.customListItemTextCard} primary={`Mortes: ${data ? data['Acre'].obitos : 0}`} />
+                </Grid>
+              </Grid>
+            </CardContent>
+          </Card>
+        </Grid>
+      </Grid>
+
+      </>
     );
   }
 }
