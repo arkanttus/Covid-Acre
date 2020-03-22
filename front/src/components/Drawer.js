@@ -85,35 +85,31 @@ export default function ResponsiveDrawer(props) {
   const [mobileOpen, setMobileOpen] = React.useState(false);
   const [cities, setCities] = React.useState()
 
-  React.useEffect(() => {
-    async function loadCities(){
-      const response = await api.get('/all-cities/')
-      setCities(response.data)
-      console.log(cities)
+  const loadCities = async () => {
+    try{
+      const {data} = await api.get('/all-cities/')
+      setCities(data)
+    }catch(ex){
+      console.log(ex)
     }
+  }
 
+  React.useEffect(() => {
     loadCities()
 
-    const intervalId = setInterval(loadCities,10000)
+    const intervalId = setInterval(loadCities, 10000)
 
     return () => clearInterval(intervalId)
 
-  }, [])
+  }, [setCities])
+
   
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
   };
 
-  const drawer = (
-    <div>
-      <div className={classes.toolbar}>
-        <img src="/images/covido.png" alt="logo" className={classes.logo} />
-      </div>
-      <Divider />
-      <ListCities dataCities={cities}/>
-    </div>
-  );
+
 
   return (
     <div className={classes.root}>
@@ -151,7 +147,13 @@ export default function ResponsiveDrawer(props) {
               keepMounted: true // Better open performance on mobile.
             }}
           >
-            {drawer}
+            <div>
+      <div className={classes.toolbar}>
+        <img src="/images/covido.png" alt="logo" className={classes.logo} />
+      </div>
+      <Divider />
+      <ListCities dataCities={cities}/>
+    </div>
           </Drawer>
         </Hidden>
 
@@ -163,7 +165,13 @@ export default function ResponsiveDrawer(props) {
               variant="permanent"
               open
             >
-              {drawer}
+              <div>
+      <div className={classes.toolbar}>
+        <img src="/images/covido.png" alt="logo" className={classes.logo} />
+      </div>
+      <Divider />
+      <ListCities dataCities={cities}/>
+    </div>
             </Drawer>
         </Hidden>
       </nav>

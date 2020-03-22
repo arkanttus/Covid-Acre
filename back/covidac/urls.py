@@ -23,6 +23,5 @@ from api import views as api_views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('admin/multiadd', api_views.multi_caso_add),
     path('api/', include('api.urls')),
 ]

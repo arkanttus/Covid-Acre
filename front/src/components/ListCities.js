@@ -12,6 +12,10 @@ import SendIcon from "@material-ui/icons/Send";
 import ExpandLess from "@material-ui/icons/ExpandLess";
 import ExpandMore from "@material-ui/icons/ExpandMore";
 import StarBorder from "@material-ui/icons/StarBorder";
+import Confirmado from '@material-ui/icons/ThumbUp';
+import Descartado from '@material-ui/icons/ThumbDown';
+import Morte from '@material-ui/icons/SentimentVeryDissatisfied';
+import Suspeito from '@material-ui/icons/ReportProblem';
 import { Cities } from "./Cities";
 
 const useStyles = makeStyles(theme => ({
@@ -67,9 +71,27 @@ const Item = props => {
         <List component="div" disablePadding>
           <ListItem button className={classes.nested}>
             <ListItemIcon>
-              <StarBorder />
+              <Suspeito />
             </ListItemIcon>
-            <ListItemText primary="Starred" />
+            <ListItemText primary={`Suspeitos: ${data ? data.suspeitos : 0}`} />
+          </ListItem>
+          <ListItem button className={classes.nested}>
+            <ListItemIcon>
+              <Confirmado />
+            </ListItemIcon>
+            <ListItemText primary={`Confirmados: ${data ? data.confirmados : 0}`} />
+          </ListItem>
+          <ListItem button className={classes.nested}>
+            <ListItemIcon>
+              <Descartado />
+            </ListItemIcon>
+            <ListItemText primary={`Descartados: ${data ? data.descartados : 0}`} />
+          </ListItem>
+          <ListItem button className={classes.nested}>
+            <ListItemIcon>
+              <Morte />
+            </ListItemIcon>
+            <ListItemText primary={`Mortes: ${data ? data.obitos : 0}`} />
           </ListItem>
         </List>
       </Collapse>
@@ -81,8 +103,6 @@ export default function NestedList(props) {
   const classes = useStyles();
   const cities = Cities;
   const dataCities = props.dataCities
-
-  //console.log(dataCities['Rio Branco'])
 
   return (
     <List
@@ -96,7 +116,7 @@ export default function NestedList(props) {
       className={classes.root}
     >
       {cities.map(city => (
-        <Item key={city._id} city={city} data='a'/>
+        <Item key={city._id} city={city} data={dataCities ? dataCities[city.nome] : null}/>
       ))}
     </List>
   );

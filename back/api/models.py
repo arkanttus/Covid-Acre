@@ -30,7 +30,7 @@ class Cidade(models.Model):
 
 class Caso(models.Model):
     status = models.CharField(max_length=3, choices=STATUS)
-    cidade = models.ForeignKey(Cidade, on_delete=models.CASCADE)
+    cidade = models.ForeignKey(Cidade, on_delete=models.CASCADE, related_name='casos')
     data_update = models.DateTimeField(verbose_name="Última atualização")
 
     def __str__(self):

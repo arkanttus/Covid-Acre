@@ -2,12 +2,17 @@ import React from "react";
 import { withStyles, makeStyles } from "@material-ui/styles";
 import Typography from "@material-ui/core/Typography";
 import Popover from "@material-ui/core/Popover";
+import Divider from "@material-ui/core/Divider";
+import Confirmado from '@material-ui/icons/ThumbUp';
+import Descartado from '@material-ui/icons/ThumbDown';
+import Morte from '@material-ui/icons/SentimentVeryDissatisfied';
+import Suspeito from '@material-ui/icons/ReportProblem';
 import { Cities } from "./Cities";
+import { ListItemIcon, ListItemText, List, ListItem } from "@material-ui/core";
 
 const styles = {
   paper: {
-    padding: "20px",
-    width: "14vw"
+    padding: "15px",
   },
   popover: {
     pointerEvents: "none"
@@ -22,13 +27,14 @@ class Mapa extends React.Component {
     super(props, context);
     this.state = {
       openedPopoverId: null,
-      anchorEl: null
+      anchorEl: null,
     };
     this.handlePopoverOpen = this.handlePopoverOpen.bind(this);
     this.handlePopoverClose = this.handlePopoverClose.bind(this);
     this.handleClickOutside = this.handleClickOutside.bind(this);
+    
   }
-
+  
   handleClickOutside(e) {
     if (e.target.tagName === "svg") {
       this.handlePopoverClose();
@@ -58,6 +64,7 @@ class Mapa extends React.Component {
     const { classes } = this.props;
     const { anchorEl, openedPopoverId } = this.state;
     const cities = Cities;
+    const data = this.props.dataCities ? this.props.dataCities : null
 
     return (
       <svg
@@ -108,10 +115,36 @@ class Mapa extends React.Component {
                 key={m.nome}
                 disableRestoreFocus
               >
-                <Typography>
+                <Typography variant='h5' component='h5'>
                   {m.nome}
-                  Casos: MOrtes:
-                </Typography>
+                  </Typography>
+                  <Divider/>
+                    <List component="div" disablePadding>
+                      <ListItem >
+                        <ListItemIcon>
+                          <Suspeito />
+                        </ListItemIcon>
+                        <ListItemText primary={`Suspeitos: ${data ? data[m.nome].suspeitos : 0}`} />
+                      </ListItem>
+                      <ListItem >
+                        <ListItemIcon>
+                          <Confirmado />
+                        </ListItemIcon>
+                        <ListItemText primary={`Confirmados: ${data ? data[m.nome].confirmados : 0}`} />
+                      </ListItem>
+                      <ListItem >
+                        <ListItemIcon>
+                          <Descartado />
+                        </ListItemIcon>
+                        <ListItemText primary={`Descartados: ${data ? data[m.nome].descartados : 0}`} />
+                      </ListItem>
+                      <ListItem >
+                        <ListItemIcon>
+                          <Morte />
+                        </ListItemIcon>
+                        <ListItemText primary={`Mortes: ${data ? data[m.nome].obitos : 0}`} />
+                      </ListItem>
+                    </List>
               </Popover>
             </g>
           ))}

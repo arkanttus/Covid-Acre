@@ -1,8 +1,32 @@
 from django.shortcuts import render
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
+from rest_framework import generics
 from .models import Cidade, Caso
+from .serializers import CidadeSerializer
 
+class CidadeList(generics.ListAPIView):
+    queryset = Cidade.objects.prefetch_related('casos')
+    serializer_class = CidadeSerializer
+
+@api_view(['GET', 'POST'])
+def all_cities(request):
+    cidades = dict()
+
+    for cidade in Cidade.objects.prefetch_related('casos'):
+        casos = [caso.status for caso in cidade.casos.all()]
+        print(casos)
+        cidades[cidade.nome] = {
+            "suspeitos": casos.count('S'),
+            "confirmados": casos.count('C'),
+            "descartados": casos.count('D'),
+            "recuperados": casos.count('R'),
+            "obitos": casos.count('O'),
+        }
+        print(cidades)
+
+    return Response(cidades)
+'''
 @api_view(['GET', 'POST'])
 def all_cities(request):
     cidades = {}
@@ -19,6 +43,6 @@ def all_cities(request):
         }
 
     return Response(cidades)
-
+'''
 def multi_caso_add(request):
     return render(request, "admin/change_form_x.html")
