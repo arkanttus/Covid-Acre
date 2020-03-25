@@ -37,6 +37,7 @@ class Caso(models.Model):
         return f"Caso {STATUS_DICT[self.status]} - {self.cidade.nome}" 
 
     def save(self, *args, **kwargs):
+        #print(self.quantidade)
         status_antigo = "N"
         data_anterior = timezone.now()
         if self.pk:

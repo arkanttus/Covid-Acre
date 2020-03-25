@@ -16,6 +16,7 @@ import { ListItemIcon, ListItemText, List, ListItem } from "@material-ui/core";
 const styles = {
   root: {
     flexGrow: 1,
+    marginBottom: 15
   },
   paper: {
     padding: 10,
@@ -215,7 +216,24 @@ class Mapa extends React.Component {
             </CardContent>
           </Card>
         </Grid>
+        <Grid item xs={12}>
+          <Typography variant='subtitle2' component='subtitle2'>
+            Fontes: Departamento de Vigilância em Saúde da Sesacre. Atualizado em 24/03/2020 23:30
+          </Typography>
+        </Grid>
+        <Grid item xs={12}>
+          <Typography variant='subtitle2' component='subtitle2'>
+            Desenvolvido por alunos de Sistemas de Informação da Universidade Federal do Acre (
+              <a href='https://github.com/arkanttus'>Ítalo Oliveira</a>, 
+              <a href='https://github.com/bruunotrindade'> Bruno Trindade</a> e 
+              <a href='https://github.com/Tony-Starkus'>Thalisson Bandeira</a>
+            ). Em construção...
+          </Typography>
+        </Grid>
       </Grid>
+
+      
+      
 
       </>
     );

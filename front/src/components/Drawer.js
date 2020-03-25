@@ -19,6 +19,8 @@ import { makeStyles, useTheme } from "@material-ui/core/styles";
 import Mapa from "./Mapa";
 import ListCities from "./ListCities";
 import api from '../services/api'
+import { Tooltip, Fab, Popover } from "@material-ui/core";
+import HelpIcon from '@material-ui/icons/Help';
 
 
 const drawerWidth = 240;
@@ -70,11 +72,23 @@ const useStyles = makeStyles(theme => ({
   content: {
     flexGrow: 1,
     padding: theme.spacing(3),
-    paddingTop: 50
+    paddingTop: 50,
+    [theme.breakpoints.up('md')]:{
+      paddingTop: 40
+    }
   },
   logo: {
     width: "60px",
     padding: "10px 0"
+  },
+  title: {
+    flexGrow: 1
+  },
+  typography: {
+    padding: theme.spacing(2),
+  },
+  help: {
+    cursor: 'pointer'
   }
 }));
 
@@ -84,6 +98,18 @@ export default function ResponsiveDrawer(props) {
   const theme = useTheme();
   const [mobileOpen, setMobileOpen] = React.useState(false);
   const [cities, setCities] = React.useState()
+  const [anchorEl, setAnchorEl] = React.useState(null);
+
+  const handleClick = event => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
+  const open = Boolean(anchorEl);
+  const id = open ? 'simple-popover' : undefined;
 
   const loadCities = async () => {
     try{
@@ -97,7 +123,7 @@ export default function ResponsiveDrawer(props) {
   React.useEffect(() => {
     loadCities()
 
-    const intervalId = setInterval(loadCities, 10000)
+    const intervalId = setInterval(loadCities, 300000)
 
     return () => clearInterval(intervalId)
 
@@ -125,9 +151,27 @@ export default function ResponsiveDrawer(props) {
           >
             <MenuIcon />
           </IconButton>
-          <Typography variant="h6" noWrap>
+          <Typography variant="h6" noWrap className={classes.title}>
             COVID-19 Acre
           </Typography>
+          <Tooltip title="Clique em uma cidade no mapa ou no menu lateral" aria-label="Help">
+              <HelpIcon onClick={handleClick} fontSize='large' className={classes.help}/>
+          </Tooltip>
+          <Popover
+            open={open}
+            anchorEl={anchorEl}
+            onClose={handleClose}
+            anchorOrigin={{
+              vertical: 'bottom',
+              horizontal: 'center',
+            }}
+            transformOrigin={{
+              vertical: 'top',
+              horizontal: 'center',
+            }}
+          >
+            <Typography className={classes.typography}>Clique em uma cidade no mapa ou no menu lateral</Typography>
+          </Popover>
         </Toolbar>
       </AppBar>
       >
@@ -148,9 +192,7 @@ export default function ResponsiveDrawer(props) {
             }}
           >
             <div>
-      <div className={classes.toolbar}>
-        <img src="/images/covido.png" alt="logo" className={classes.logo} />
-      </div>
+      
       <Divider />
       <ListCities dataCities={cities}/>
     </div>
@@ -166,12 +208,10 @@ export default function ResponsiveDrawer(props) {
               open
             >
               <div>
-      <div className={classes.toolbar}>
-        <img src="/images/covido.png" alt="logo" className={classes.logo} />
-      </div>
-      <Divider />
-      <ListCities dataCities={cities}/>
-    </div>
+                
+                <Divider />
+                <ListCities dataCities={cities}/>
+              </div>
             </Drawer>
         </Hidden>
       </nav>
