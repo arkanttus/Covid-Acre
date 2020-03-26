@@ -12,11 +12,13 @@ import SendIcon from "@material-ui/icons/Send";
 import ExpandLess from "@material-ui/icons/ExpandLess";
 import ExpandMore from "@material-ui/icons/ExpandMore";
 import StarBorder from "@material-ui/icons/StarBorder";
-import Confirmado from '@material-ui/icons/ThumbUp';
-import Descartado from '@material-ui/icons/ThumbDown';
+import Confirmado from '@material-ui/icons/Check';
+import Descartado from '@material-ui/icons/Clear';
 import Morte from '@material-ui/icons/SentimentVeryDissatisfied';
 import Suspeito from '@material-ui/icons/ReportProblem';
 import { Cities } from "./Cities";
+import Box from '@material-ui/core/Box';
+import clsx from "clsx";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -25,13 +27,19 @@ const useStyles = makeStyles(theme => ({
     backgroundColor: theme.palette.background.paper
   },
   nested: {
-    paddingLeft: theme.spacing(4)
+    paddingLeft: theme.spacing(3),
+    cursor: 'default'
   },
   cityIcon: {
-    width: 55
+    width: 55,
+    height: 30
   },
   item: {
     minWidth: 76
+  },
+  customCard: {
+    boxShadow: '0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24)',
+    margin: 10
   }
 }));
 
@@ -67,23 +75,23 @@ const Item = props => {
         <ListItemText primary={city.nome} />
         {openId === city._id ? <ExpandLess /> : <ExpandMore />}
       </ListItem>
-      <Collapse in={openId === city._id} timeout="auto" unmountOnExit>
-        <List component="div" disablePadding>
+      <Collapse in={openId === city._id} timeout="auto" unmountOnExit className={classes.customCard}>
+        <List component="div" disablePadding >
           <ListItem button className={classes.nested}>
             <ListItemIcon>
-              <Suspeito />
+              <Suspeito style={{ color: '#fbc02d' }} />
             </ListItemIcon>
             <ListItemText primary={`Suspeitos: ${data ? data.suspeitos : 0}`} />
           </ListItem>
           <ListItem button className={classes.nested}>
             <ListItemIcon>
-              <Confirmado />
+              <Confirmado style={{ color: '#f44336' }} />
             </ListItemIcon>
             <ListItemText primary={`Confirmados: ${data ? data.confirmados : 0}`} />
           </ListItem>
           <ListItem button className={classes.nested}>
             <ListItemIcon>
-              <Descartado />
+              <Descartado style={{ color: '#4caf50' }} />
             </ListItemIcon>
             <ListItemText primary={`Descartados: ${data ? data.descartados : 0}`} />
           </ListItem>

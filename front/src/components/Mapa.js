@@ -6,8 +6,8 @@ import Divider from "@material-ui/core/Divider";
 import Grid from "@material-ui/core/Grid";
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
-import Confirmado from '@material-ui/icons/ThumbUp';
-import Descartado from '@material-ui/icons/ThumbDown';
+import Confirmado from '@material-ui/icons/Check';
+import Descartado from '@material-ui/icons/Clear';
 import Morte from '@material-ui/icons/SentimentVeryDissatisfied';
 import Suspeito from '@material-ui/icons/ReportProblem';
 import { Cities } from "./Cities";
@@ -190,19 +190,19 @@ class Mapa extends React.Component {
               <Grid container>
                 <Grid item xs={12} sm={6} md={3} className={classes.customGridItemCard}>
                   <ListItemIcon style={{ minWidth: 32 }}>
-                    <Suspeito />
+                    <Suspeito style={{ color: '#fbc02d' }} />
                   </ListItemIcon>
                   <ListItemText className={classes.customListItemTextCard} primary={`Suspeitos: ${data ? data['Acre'].suspeitos : 0}`} />
                 </Grid>
                 <Grid item xs={12} sm={6} md={3} className={classes.customGridItemCard}>
                   <ListItemIcon style={{ minWidth: 32 }}>
-                    <Confirmado />
+                    <Confirmado style={{ color: '#f44336' }} />
                   </ListItemIcon>
                   <ListItemText className={classes.customListItemTextCard} primary={`Confirmados: ${data ? data['Acre'].confirmados : 0}`} />
                 </Grid>
                 <Grid item xs={12} sm={6} md={3} className={classes.customGridItemCard}>
                   <ListItemIcon style={{ minWidth: 32 }}>
-                    <Descartado />
+                    <Descartado style={{ color: '#4caf50' }} />
                   </ListItemIcon>
                   <ListItemText className={classes.customListItemTextCard} primary={`Descartados: ${data ? data['Acre'].descartados : 0}`} />
                 </Grid>
@@ -226,7 +226,7 @@ class Mapa extends React.Component {
             Desenvolvido por alunos de Sistemas de Informação da Universidade Federal do Acre (
               <a href='https://github.com/arkanttus'>Ítalo Oliveira</a>, 
               <a href='https://github.com/bruunotrindade'> Bruno Trindade</a> e 
-              <a href='https://github.com/Tony-Starkus'>Thalisson Bandeira</a>
+              <a href='https://github.com/Tony-Starkus'> Thalisson Bandeira</a>
             ). Em construção...
           </Typography>
         </Grid>
