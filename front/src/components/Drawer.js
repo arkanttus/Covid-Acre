@@ -216,7 +216,7 @@ export default function ResponsiveDrawer(props) {
         
           <Switch>
             <Route
-              path="/mapa"
+              path="/"
               render={props => (
                 <Mapa {...props} dataCities={cities}/>
               )}

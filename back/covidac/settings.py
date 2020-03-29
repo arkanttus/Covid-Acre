@@ -82,7 +82,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'covid_acre', 
         'USER': 'admin',
-        'PASSWORD': 'password',
+        'PASSWORD': 'admin',
         'HOST': '127.0.0.1', 
         'PORT': '3306',
     }

@@ -6,12 +6,15 @@ import Divider from "@material-ui/core/Divider";
 import Grid from "@material-ui/core/Grid";
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
+import Button from '@material-ui/core/Button';
+import CardActions from '@material-ui/core/CardActions';
 import Confirmado from '@material-ui/icons/Check';
 import Descartado from '@material-ui/icons/Clear';
 import Morte from '@material-ui/icons/SentimentVeryDissatisfied';
 import Suspeito from '@material-ui/icons/ReportProblem';
 import { Cities } from "./Cities";
 import { ListItemIcon, ListItemText, List, ListItem } from "@material-ui/core";
+import api from '../services/api';
 
 const styles = {
   root: {
@@ -43,6 +46,14 @@ const styles = {
     ['@media (max-width:600px)']: {
       paddingTop: '5%'
     }
+  },
+  rootCard: {
+    ['&:hover']: {
+      backgroundColor: '#f5f5f5'
+    }
+  },
+  imagem: {
+    maxWidth: "100%",
   }
 
 };
@@ -53,13 +64,24 @@ class Mapa extends React.Component {
     this.state = {
       openedPopoverId: null,
       anchorEl: null,
+      noticias: []
     };
     this.handlePopoverOpen = this.handlePopoverOpen.bind(this);
     this.handlePopoverClose = this.handlePopoverClose.bind(this);
     this.handleClickOutside = this.handleClickOutside.bind(this);
-    
+    this.loadNoticias();
   }
   
+  async loadNoticias() {
+      try {
+        const {data} = await api.get('/noticias/');
+        this.setState({ noticias: Object.keys(data).map(function (i) { return data[i] }) });
+        console.log(this.state.noticias)
+      } catch(err) {
+        console.log(err);
+      }
+  }
+
   handleClickOutside(e) {
     if (e.target.tagName === "svg") {
       this.handlePopoverClose();
@@ -221,6 +243,59 @@ class Mapa extends React.Component {
             Fontes: Departamento de Vigilância em Saúde da Sesacre. Atualizado em 24/03/2020 23:30
           </Typography>
         </Grid>
+        
+        <Grid item xs={12} style={{ display: "flex", alignItems: "center" ,padding: "2% 0" }}>
+          <hr style={{ flex: 2, height: "fit-content" }}></hr>
+          <Typography color="textSecondary" style={{ flex: 1 }} variant="h5">
+            Notícias 
+          </Typography>
+          <hr style={{ flex: 2, height: "fit-content" }}></hr>
+        </Grid>
+        
+        
+        {/*NOTICIAS*/}
+        <Grid item xs={12}>
+          <Grid container spacing={1}>
+            
+              {this.state.noticias ? (
+              this.state.noticias.map(item => (
+                <Grid item xs={12} md={4}>
+                  <a href={item.url} style={{ textDecoration: 'none' }} target="_blank">
+                  <Card className={classes.rootCard}>
+                    <CardContent style={{ paddingBottom: 0 }}>
+                      <Grid container>
+                        <Grid item xs={12}>
+                          <img src={item.imagem} className={classes.imagem} />
+                        </Grid>
+                        <Grid item xs={12}>
+                          <Typography variant="h5" component="h2">
+                          {item.titulo}
+                          </Typography>
+                        </Grid>
+                      </Grid>
+                    </CardContent>
+                    <CardActions>
+                      <Typography color="textSecondary" style={{ fontSize: 15 }}>
+                        Fonte: ac24horas
+                      </Typography>
+                      <Button size="small" color="primary" style={{ marginLeft: 'auto' }}>
+                        <a href={item.url} style={{ textDecoration: 'inherit' }} target="_blank">
+                          Ler notícia
+                        </a>
+                      </Button>
+                    </CardActions>
+                  </Card>
+                  </a>
+                </Grid>
+              ))
+              ) : (
+              'CARREGANDO'
+              )
+              }
+            
+          </Grid>
+        </Grid>
+
         <Grid item xs={12}>
           <Typography variant='subtitle2' component='subtitle2'>
             Desenvolvido por alunos de Sistemas de Informação da Universidade Federal do Acre (
