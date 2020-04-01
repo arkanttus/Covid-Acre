@@ -15,6 +15,7 @@ import Suspeito from '@material-ui/icons/ReportProblem';
 import { Cities } from "./Cities";
 import { ListItemIcon, ListItemText, List, ListItem } from "@material-ui/core";
 import api from '../services/api';
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 const styles = {
   root: {
@@ -257,7 +258,8 @@ class Mapa extends React.Component {
         <Grid item xs={12}>
           <Grid container spacing={1}>
             
-              {this.state.noticias ? (
+              {this.state.noticias.length ? (
+                
               this.state.noticias.map(item => (
                 <Grid item xs={12} md={4}>
                   <a href={item.url} style={{ textDecoration: 'none' }} target="_blank">
@@ -289,7 +291,9 @@ class Mapa extends React.Component {
                 </Grid>
               ))
               ) : (
-              'CARREGANDO'
+              <Grid item xs={12}>
+                <CircularProgress />
+              </Grid>
               )
               }
             
@@ -306,9 +310,6 @@ class Mapa extends React.Component {
           </Typography>
         </Grid>
       </Grid>
-
-      
-      
 
       </>
     );
