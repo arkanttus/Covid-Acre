@@ -1,6 +1,6 @@
 import React from "react";
-import { BrowserRouter, Switch, Route } from "react-router-dom";
-
+import { BrowserRouter, Switch, Route, Link } from "react-router-dom";
+import clsx from 'clsx'
 import PropTypes from "prop-types";
 import AppBar from "@material-ui/core/AppBar";
 import CssBaseline from "@material-ui/core/CssBaseline";
@@ -15,33 +15,14 @@ import { makeStyles, useTheme } from "@material-ui/core/styles";
 import Mapa from "./Mapa";
 import ListCities from "./ListCities";
 import api from '../services/api'
-import { Tooltip, Fab, Popover } from "@material-ui/core";
+import { Tooltip, Fab, Popover, Button } from "@material-ui/core";
 import HelpIcon from '@material-ui/icons/Help';
+import About from "../pages/About";
 
 
 const drawerWidth = 240;
 
 const useStyles = makeStyles(theme => ({
-  root: {
-    display: "flex",
-    "& ::-webkit-scrollbar": {
-      width: "5px"
-    },
-
-    "& ::-webkit-scrollbar-track": {
-      background: "#f1f1f1",
-      borderRadius: "8px"
-    },
-
-    "& ::-webkit-scrollbar-thumb": {
-      background: "#888",
-      borderRadius: "8px"
-    },
-
-    "& ::-webkit-scrollbar-thumb:hover": {
-      background: "#555"
-    }
-  },
   drawer: {
     [theme.breakpoints.up("sm")]: {
       width: drawerWidth,
@@ -49,12 +30,16 @@ const useStyles = makeStyles(theme => ({
     }
   },
   appBar: {
+    backgroundColor: 'white',
+    borderBottom: '1px solid #ddd',
+    boxShadow: 'none',
     [theme.breakpoints.up("sm")]: {
       width: `calc(100% - ${drawerWidth}px)`,
       marginLeft: drawerWidth
     }
   },
   menuButton: {
+    color: '#444',
     marginRight: theme.spacing(2),
     [theme.breakpoints.up("sm")]: {
       display: "none"
@@ -65,36 +50,65 @@ const useStyles = makeStyles(theme => ({
   drawerPaper: {
     width: drawerWidth
   },
-  content: {
-    flexGrow: 1,
-    padding: theme.spacing(3),
-    paddingTop: 50,
-    [theme.breakpoints.up('md')]:{
-      paddingTop: 40
-    }
-  },
   logo: {
     width: "60px",
     padding: "10px 0"
   },
   title: {
-    flexGrow: 1
+    color: '#333'
   },
   typography: {
     padding: theme.spacing(2),
   },
   help: {
-    cursor: 'pointer'
+    cursor: 'pointer',
+    color: '#555'
+  },
+  menu: {
+    marginRight: 10,
+  },
+  menuHidden: {
+    [theme.breakpoints.down(750)]:{
+      display: 'none'
+    }
+  },
+  logo: {
+    width: 40,
+    height: 40,
+    marginRight: 10
+  },
+  link: {
+    textDecoration: 'none'
   }
 }));
+
+function Menu(props){
+  return (
+    <div 
+      className={clsx(props.styles.menu, {
+        [props.styles.menuHidden] : props.hidden
+      })}
+    >
+      <Link to={`/`} className={props.styles.link}>
+        <Button>Mapa</Button>
+      </Link>
+      <a href='http://covidappbr.com.br' className={props.styles.link}>
+        <Button>CovidApp</Button>
+      </a>
+      <Link to={`/about`} className={props.styles.link}>
+        <Button>Sobre</Button>
+      </Link>
+    </div>
+  )
+}
 
 export default function ResponsiveDrawer(props) {
   const { container } = props;
   const classes = useStyles();
   const theme = useTheme();
   const [mobileOpen, setMobileOpen] = React.useState(false);
-  const [cities, setCities] = React.useState()
   const [anchorEl, setAnchorEl] = React.useState(null);
+  const {cities} = props
 
   const handleClick = event => {
     setAnchorEl(event.currentTarget);
@@ -107,36 +121,14 @@ export default function ResponsiveDrawer(props) {
   const open = Boolean(anchorEl);
   const id = open ? 'simple-popover' : undefined;
 
-  const loadCities = async () => {
-    try{
-      const {data} = await api.get('/all-cities/')
-      setCities(data)
-    }catch(ex){
-      console.log(ex)
-    }
-  }
-
-  React.useEffect(() => {
-    loadCities()
-
-    const intervalId = setInterval(loadCities, 300000)
-
-    return () => clearInterval(intervalId)
-
-  }, [setCities])
-
-  
-
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
   };
 
-
-
   return (
-    <div className={classes.root}>
-    <BrowserRouter>
+    <>
       <CssBaseline />
+
       <AppBar position="fixed" className={classes.appBar}>
         <Toolbar>
           <IconButton
@@ -148,9 +140,16 @@ export default function ResponsiveDrawer(props) {
           >
             <MenuIcon />
           </IconButton>
-          <Typography variant="h6" noWrap className={classes.title}>
+
+          <img src='images/sick.svg' alt='logo' className={classes.logo}/>
+          <Typography variant="h6" className={classes.title}>
             COVID-19 Acre
           </Typography>
+
+          <div style={{flexGrow: 1}}></div>
+          
+          <Menu styles={classes} hidden={true} />
+
           <Tooltip title="Clique em uma cidade no mapa ou no menu lateral" aria-label="Help">
               <HelpIcon onClick={handleClick} fontSize='large' className={classes.help}/>
           </Tooltip>
@@ -169,9 +168,10 @@ export default function ResponsiveDrawer(props) {
           >
             <Typography className={classes.typography}>Clique em uma cidade no mapa ou no menu lateral</Typography>
           </Popover>
+
         </Toolbar>
       </AppBar>
-      >
+      
       <nav className={classes.drawer} aria-label="mailbox folders">
         {/* The implementation can be swapped with js to avoid SEO duplication of links. */}
         <Hidden smUp implementation="css">
@@ -189,10 +189,10 @@ export default function ResponsiveDrawer(props) {
             }}
           >
             <div>
-      
-      <Divider />
-      <ListCities dataCities={cities}/>
-      </div>
+              <Menu styles={classes}/>
+              <Divider />
+              <ListCities dataCities={cities}/>
+            </div>
           </Drawer>
         </Hidden>
 
@@ -212,20 +212,8 @@ export default function ResponsiveDrawer(props) {
             </Drawer>
         </Hidden>
       </nav>
-      <main className={classes.content}>
-        
-          <Switch>
-            <Route
-              path="/"
-              render={props => (
-                <Mapa {...props} dataCities={cities}/>
-              )}
-            />
-          </Switch>
-        
-        
-      </main>
-    </BrowserRouter>
-    </div>
+      
+
+    </>
   );
 }

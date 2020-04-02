@@ -16,6 +16,8 @@ import { Cities } from "./Cities";
 import { ListItemIcon, ListItemText, List, ListItem } from "@material-ui/core";
 import api from '../services/api';
 import CircularProgress from '@material-ui/core/CircularProgress';
+import CardNews from "./CardNews";
+import CardAcre from "./CardAcre";
 
 const styles = {
   root: {
@@ -55,8 +57,10 @@ const styles = {
   },
   imagem: {
     maxWidth: "100%",
+  },
+  city: {
+    cursor: 'pointer'
   }
-
 };
 
 class Mapa extends React.Component {
@@ -70,17 +74,21 @@ class Mapa extends React.Component {
     this.handlePopoverOpen = this.handlePopoverOpen.bind(this);
     this.handlePopoverClose = this.handlePopoverClose.bind(this);
     this.handleClickOutside = this.handleClickOutside.bind(this);
-    this.loadNoticias();
+    //this.loadNoticias();
   }
   
   async loadNoticias() {
       try {
         const {data} = await api.get('/noticias/');
-        this.setState({ noticias: Object.keys(data).map(function (i) { return data[i] }) });
+        this.setState({ noticias: data.noticias });
         console.log(this.state.noticias)
       } catch(err) {
         console.log(err);
       }
+  }
+
+  async componentDidMount(){
+    this.loadNoticias()
   }
 
   handleClickOutside(e) {
@@ -125,7 +133,7 @@ class Mapa extends React.Component {
         onClick={e => this.handleClickOutside(e)}
         className={classes.mapa}
       >
-        <g _ngcontent-c18="" className="uf" transform="scale(1 -1)">
+        <g _ngcontent-c18="" className={classes.city} transform="scale(1 -1)">
           {cities.map(m => (
             <g _ngcontent-c18="" vectorEffect="non-scaling-stroke" key={m._id}>
               <g
@@ -202,46 +210,12 @@ class Mapa extends React.Component {
       
       <Grid container className={classes.containerRoot}>
         <Grid item xs={12}>
-          <Card className={classes.root}>
-            <CardContent>
-            <Typography variant='h5' component='h5'>
-                  Acre
-                  </Typography>
-              <Typography className={classes.title} color="textSecondary" gutterBottom>
-                Visão Geral
-              </Typography>
-              <Grid container>
-                <Grid item xs={12} sm={6} md={3} className={classes.customGridItemCard}>
-                  <ListItemIcon style={{ minWidth: 32 }}>
-                    <Suspeito style={{ color: '#fbc02d' }} />
-                  </ListItemIcon>
-                  <ListItemText className={classes.customListItemTextCard} primary={`Suspeitos: ${data ? data['Acre'].suspeitos : 0}`} />
-                </Grid>
-                <Grid item xs={12} sm={6} md={3} className={classes.customGridItemCard}>
-                  <ListItemIcon style={{ minWidth: 32 }}>
-                    <Confirmado style={{ color: '#f44336' }} />
-                  </ListItemIcon>
-                  <ListItemText className={classes.customListItemTextCard} primary={`Confirmados: ${data ? data['Acre'].confirmados : 0}`} />
-                </Grid>
-                <Grid item xs={12} sm={6} md={3} className={classes.customGridItemCard}>
-                  <ListItemIcon style={{ minWidth: 32 }}>
-                    <Descartado style={{ color: '#4caf50' }} />
-                  </ListItemIcon>
-                  <ListItemText className={classes.customListItemTextCard} primary={`Descartados: ${data ? data['Acre'].descartados : 0}`} />
-                </Grid>
-                <Grid item xs={12} sm={6} md={3} className={classes.customGridItemCard}>
-                  <ListItemIcon style={{ minWidth: 32 }}>
-                    <Morte />
-                  </ListItemIcon>
-                  <ListItemText className={classes.customListItemTextCard} primary={`Mortes: ${data ? data['Acre'].obitos : 0}`} />
-                </Grid>
-              </Grid>
-            </CardContent>
-          </Card>
+          <CardAcre data={data}/>
         </Grid>
+
         <Grid item xs={12}>
-          <Typography variant='subtitle2' component='subtitle2'>
-            Fontes: Departamento de Vigilância em Saúde da Sesacre. Atualizado em 24/03/2020 23:30
+          <Typography variant='subtitle2' component='h5'>
+            Fontes: Departamento de Vigilância em Saúde da Sesacre. Atualizado em 01/04/2020 17:00
           </Typography>
         </Grid>
         
@@ -255,60 +229,23 @@ class Mapa extends React.Component {
         
         
         {/*NOTICIAS*/}
-        <Grid item xs={12}>
-          <Grid container spacing={1}>
-            
-              {this.state.noticias.length ? (
-                
-              this.state.noticias.map(item => (
-                <Grid item xs={12} md={4}>
-                  <a href={item.url} style={{ textDecoration: 'none' }} target="_blank">
-                  <Card className={classes.rootCard}>
-                    <CardContent style={{ paddingBottom: 0 }}>
-                      <Grid container>
-                        <Grid item xs={12}>
-                          <img src={item.imagem} className={classes.imagem} />
-                        </Grid>
-                        <Grid item xs={12}>
-                          <Typography variant="h5" component="h2">
-                          {item.titulo}
-                          </Typography>
-                        </Grid>
-                      </Grid>
-                    </CardContent>
-                    <CardActions>
-                      <Typography color="textSecondary" style={{ fontSize: 15 }}>
-                        Fonte: ac24horas
-                      </Typography>
-                      <Button size="small" color="primary" style={{ marginLeft: 'auto' }}>
-                        <a href={item.url} style={{ textDecoration: 'inherit' }} target="_blank">
-                          Ler notícia
-                        </a>
-                      </Button>
-                    </CardActions>
-                  </Card>
-                  </a>
-                </Grid>
-              ))
+        
+          <Grid container spacing={1}>   
+            {this.state.noticias.length ? (        
+                this.state.noticias.map((item,index) => (
+                  <Grid item xs={12} md={4} key={index}>
+                    <a href={item.url} style={{ textDecoration: 'none' }} target="_blank">
+                      <CardNews titulo={item.titulo} imagem={item.imagem} url={item.url} date={item.date}/>
+                    </a>
+                  </Grid>
+                ))
               ) : (
-              <Grid item xs={12}>
-                <CircularProgress />
-              </Grid>
+                <Grid item xs={12}>
+                  <CircularProgress />
+                </Grid>
               )
-              }
-            
+            } 
           </Grid>
-        </Grid>
-
-        <Grid item xs={12}>
-          <Typography variant='subtitle2' component='subtitle2'>
-            Desenvolvido por alunos de Sistemas de Informação da Universidade Federal do Acre (
-              <a href='https://github.com/arkanttus'>Ítalo Oliveira</a>, 
-              <a href='https://github.com/bruunotrindade'> Bruno Trindade</a> e 
-              <a href='https://github.com/Tony-Starkus'> Thalisson Bandeira</a>
-            ). Em construção...
-          </Typography>
-        </Grid>
       </Grid>
 
       </>

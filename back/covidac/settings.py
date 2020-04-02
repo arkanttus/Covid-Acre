@@ -82,8 +82,8 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'covid_acre', 
         'USER': 'admin',
-        'PASSWORD': 'admin',
-        'HOST': '127.0.0.1', 
+        'PASSWORD': 'password',
+        'HOST': '127.0.0.1' if DEBUG else '35.223.68.68', 
         'PORT': '3306',
     }
 }
@@ -125,15 +125,20 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 
-STATIC_URL = '/static/'
+STATIC_URL = '/static/' if DEBUG else '/static/back/'
+
+if DEBUG:
+    STATICFILES_DIRS = [
+        os.path.join(BASE_DIR, 'static'),
+    ] 
+else:
+    STATIC_ROOT = '/opt/Covid-Acre/back/static/'
+
 
 MEDIA_URL = "/media/"
 
 MEDIA_ROOT = 'media/'
 
-STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, 'static'),
-] 
 
 # CORS
 
@@ -141,7 +146,15 @@ CORS_ORIGIN_ALLOW_ALL = True
 CORS_ALLOW_CREDENTIALS = True
 CORS_ORIGIN_WHITELIST = [
     'https://localhost:3000',
+] if DEBUG else [
+    'http://covidac.tk',
+    'http://www.covidac.tk',
+    'http://www.covidacre.tk',
+    'http://covidacre.tk'
 ]
 CORS_ORIGIN_REGEX_WHITELIST = [
     'localhost:3000',
+] if DEBUG else [
+    'covidac.tk',
+    'covidacre.tk'
 ]
