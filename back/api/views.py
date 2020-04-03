@@ -2,13 +2,16 @@ from django.shortcuts import render
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import generics
-from .models import Cidade, Caso
+from .models import Cidade, Caso, Registro
 from django.http import HttpResponse
 import requests
 from bs4 import BeautifulSoup
 
 @api_view(['GET', 'POST'])
 def all_cities(request):
+    ultimo_registro = Registro.objects.order_by('-data_novo')[0]
+    ultima_att = ultimo_registro.data_novo
+
     cidades = dict()
 
     cidades['Acre'] = {
@@ -38,7 +41,7 @@ def all_cities(request):
         cidades['Acre']['recuperados'] += r
         cidades['Acre']['obitos'] += o
 
-    return Response(cidades)
+    return Response({'Cidades': cidades, 'Update': ultima_att})
 
 
 @api_view(['GET'])

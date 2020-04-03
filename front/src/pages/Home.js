@@ -6,6 +6,7 @@ import Drawer from "../components/Drawer";
 import { Route, Switch } from "react-router-dom";
 import api from "../services/api";
 import About from "./About";
+import Teste from "../components/Teste";
 
 const useStyles = makeStyles( theme => ({
   root: {
@@ -41,11 +42,13 @@ const useStyles = makeStyles( theme => ({
 export default function Home() {
   const classes = useStyles();
   const [cities, setCities] = React.useState()
+  const [lastUpdate, setLastUpdate] = React.useState()
 
   const loadCities = async () => {
     try{
       const {data} = await api.get('/all-cities/')
-      setCities(data)
+      setCities(data.Cidades)
+      setLastUpdate(data.Update)
     }catch(ex){
       console.log(ex)
     }
@@ -54,7 +57,7 @@ export default function Home() {
   React.useEffect(() => {
     loadCities()
 
-    const intervalId = setInterval(loadCities, 2000)
+    const intervalId = setInterval(loadCities, 300000)
 
     return () => clearInterval(intervalId)
 
@@ -70,7 +73,7 @@ export default function Home() {
             
             path="/"
             render={props => (
-              <Mapa {...props} dataCities={cities}/>
+              <Mapa {...props} dataCities={cities} lastUpdate={lastUpdate}/>
             )}
           />
         </Switch>   

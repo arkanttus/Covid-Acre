@@ -12,14 +12,14 @@ import Confirmado from '@material-ui/icons/Check';
 import Descartado from '@material-ui/icons/Clear';
 import Morte from '@material-ui/icons/SentimentVeryDissatisfied';
 import Suspeito from '@material-ui/icons/ReportProblem';
-import Recuperados from '@material-ui/icons/InsertEmoticon';
 import { Cities } from "./Cities";
 import { ListItemIcon, ListItemText, List, ListItem } from "@material-ui/core";
 import api from '../services/api';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import CardNews from "./CardNews";
 import CardAcre from "./CardAcre";
-import moment from 'moment'
+import { Glyphs } from "./Glyphs";
+import { Texts } from "./Texts";
 
 const styles = {
   root: {
@@ -71,7 +71,7 @@ class Mapa extends React.Component {
     this.state = {
       openedPopoverId: null,
       anchorEl: null,
-      noticias: [],
+      noticias: []
     };
     this.handlePopoverOpen = this.handlePopoverOpen.bind(this);
     this.handlePopoverClose = this.handlePopoverClose.bind(this);
@@ -123,20 +123,24 @@ class Mapa extends React.Component {
     const { anchorEl, openedPopoverId } = this.state;
     const cities = Cities;
     const data = this.props.dataCities ? this.props.dataCities : null
-    const lastUpdate = this.props.lastUpdate ? this.props.lastUpdate : ''
 
     return (
       <>
       <svg
+      xmlns="http://www.w3.org/2000/svg" xmlSpace="preserve" width="297mm" height="210mm" version="1.1" 
+      style={{shapeRendering: 'geometricPrecision', textRendering: 'geometricPrecision', 
+            imageRendering: 'optimizeQuality', fillRule: 'evenodd', clipRule: 'evenodd'}}
+      viewBox="0 0 29700 21000"
+       xmlnsXlink="http://www.w3.org/1999/xlink"
+       xmlnsXodm="http://www.corel.com/coreldraw/odm/2003"
         _ngcontent-c18=""
-        xmlnsXlink="http://www.w3.org/1999/xlink"
-        preserveAspectRatio="xMidYMid meet"
-        xmlns="http://www.w3.org/2000/svg"
-        viewBox="-74.35858499999999 6.743615 8.100069999999988 4.7700700000000005"
+       
         onClick={e => this.handleClickOutside(e)}
         className={classes.mapa}
       >
+        <Glyphs />
         <g _ngcontent-c18="" className={classes.city} transform="scale(1 -1)">
+          <g>
           {cities.map(m => (
             <g _ngcontent-c18="" vectorEffect="non-scaling-stroke" key={m._id}>
               <g
@@ -182,25 +186,19 @@ class Mapa extends React.Component {
                     <List component="div" disablePadding>
                       <ListItem style={{ padding: 5 }}>
                         <ListItemIcon style={{ minWidth: 32 }}>
-                          <Suspeito style={{ color: '#fbc02d' }} />
+                          <Suspeito />
                         </ListItemIcon>
                         <ListItemText primary={`Suspeitos: ${data ? data[m.nome].suspeitos : 0}`} />
                       </ListItem>
                       <ListItem style={{ padding: 5 }}>
                         <ListItemIcon style={{ minWidth: 32 }}>
-                          <Confirmado style={{ color: '#f44336' }} />
+                          <Confirmado />
                         </ListItemIcon>
                         <ListItemText primary={`Confirmados: ${data ? data[m.nome].confirmados : 0}`} />
                       </ListItem>
-                      {/*<ListItem style={{ padding: 5 }}>
-                        <ListItemIcon style={{ minWidth: 32 }}>
-                          <Recuperados style={{ color: '#454545' }} />
-                        </ListItemIcon>
-                        <ListItemText primary={`Recuperados: ${data ? data[m.nome].recuperados : 0}`} />
-                      </ListItem>*/}
                       <ListItem style={{ padding: 5 }}>
                         <ListItemIcon style={{ minWidth: 32 }}>
-                          <Descartado style={{ color: '#4caf50' }} />
+                          <Descartado />
                         </ListItemIcon>
                         <ListItemText primary={`Descartados: ${data ? data[m.nome].descartados : 0}`} />
                       </ListItem>
@@ -213,7 +211,8 @@ class Mapa extends React.Component {
                     </List>
               </Popover>
             </g>
-          ))}
+          ))}</g>
+          <Texts />
         </g>
       </svg>
       
@@ -224,7 +223,7 @@ class Mapa extends React.Component {
 
         <Grid item xs={12}>
           <Typography variant='subtitle2' component='h5'>
-            Fontes: Departamento de Vigilância em Saúde da Sesacre. Atualizado em {moment(lastUpdate).format('DD/MM/YYYY HH:mm')}
+            Fontes: Departamento de Vigilância em Saúde da Sesacre. Atualizado em 01/04/2020 17:00
           </Typography>
         </Grid>
         

@@ -16,6 +16,7 @@ import Confirmado from '@material-ui/icons/Check';
 import Descartado from '@material-ui/icons/Clear';
 import Morte from '@material-ui/icons/SentimentVeryDissatisfied';
 import Suspeito from '@material-ui/icons/ReportProblem';
+import Recuperados from '@material-ui/icons/InsertEmoticon';
 import { Cities } from "./Cities";
 import Box from '@material-ui/core/Box';
 import clsx from "clsx";
@@ -89,6 +90,12 @@ const Item = props => {
             </ListItemIcon>
             <ListItemText primary={`Confirmados: ${data ? data.confirmados : 0}`} />
           </ListItem>
+          {/*<ListItem button className={classes.nested}>
+            <ListItemIcon>
+              <Recuperados style={{ color: '#454545' }} />
+            </ListItemIcon>
+            <ListItemText primary={`Recuperados: ${data ? data.recuperados : 0}`} />
+          </ListItem>*/}
           <ListItem button className={classes.nested}>
             <ListItemIcon>
               <Descartado style={{ color: '#4caf50' }} />
