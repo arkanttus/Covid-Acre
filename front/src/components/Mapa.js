@@ -68,31 +68,39 @@ const styles = {
 class Mapa extends React.Component {
   constructor(props, context) {
     super(props, context);
+    
     this.state = {
       openedPopoverId: null,
       anchorEl: null,
       noticias: [],
+      cities: Cities,
+      citiesDefault: Cities
     };
     this.handlePopoverOpen = this.handlePopoverOpen.bind(this);
     this.handlePopoverClose = this.handlePopoverClose.bind(this);
     this.handleClickOutside = this.handleClickOutside.bind(this);
-    //this.loadNoticias();
+  }
+
+  async componentDidMount() {
+    var cities = Cities;
+
+    console.log(this.props)
+    if(this.props.dataCities) {
+      const total = this.props.dataCities['Acre'].confirmados;
+  
+      
+      cities.forEach(function(city, index) {
+  
+        const data = this.props.dataCities[city.nome]
+        if(data) {
+          city.fill = "#" + Math.round(data.confirmados/data.descartados * 16).toString(16) + "00"
+        }
+      })
+  
+      this.setState({ cities, citiesDefault: cities })
+    }
   }
   
-  async loadNoticias() {
-      try {
-        const {data} = await api.get('/noticias/');
-        this.setState({ noticias: data.noticias });
-        console.log(this.state.noticias)
-      } catch(err) {
-        console.log(err);
-      }
-  }
-
-  async componentDidMount(){
-    this.loadNoticias()
-  }
-
   handleClickOutside(e) {
     if (e.target.tagName === "svg") {
       this.handlePopoverClose();
@@ -100,6 +108,9 @@ class Mapa extends React.Component {
   }
 
   handlePopoverOpen(event, popoverId) {
+    var cities = this.state.cities
+    cities.find(({ _id }) => _id === popoverId);
+
     console.log(event.target);
     if (popoverId === this.state.openedPopoverId) {
       this.handlePopoverClose();
@@ -107,7 +118,8 @@ class Mapa extends React.Component {
     }
     this.setState({
       openedPopoverId: popoverId,
-      anchorEl: event.target
+      anchorEl: event.target,
+      cities
     });
   }
 
@@ -118,12 +130,44 @@ class Mapa extends React.Component {
     });
   }
 
+  static getDerivedStateFromProps(nextProps, prevState) {
+
+    var cities = prevState.cities
+    if(nextProps.dataCities) {
+      
+      cities.forEach(function(city, index) {
+  
+        const data = nextProps.dataCities[city.nome], total = nextProps.dataCities['Acre'].confirmados//, total = data.suspeitos+data.confirmados+data.descartados
+        
+        if(data) {
+          var div = -1
+          if (total > 0)
+            div = 1 - (data.confirmados)/total
+          
+          var color = Math.round(div * 196).toString(16)
+          if(data.confirmados == 0)
+            color = "CC";
+          else if(color.length == 1)
+            color = "0" + color
+          
+
+          city.fill = "#CC" + color + color
+        }
+      })
+    }
+
+    return {
+      cities  
+    };
+  }
+
   render() {
     const { classes } = this.props;
     const { anchorEl, openedPopoverId } = this.state;
-    const cities = Cities;
+    const cities = this.state.cities;
     const data = this.props.dataCities ? this.props.dataCities : null
     const lastUpdate = this.props.lastUpdate ? this.props.lastUpdate : ''
+    const news = this.props.dataNews ? this.props.dataNews : []
 
     return (
       <>
@@ -151,8 +195,10 @@ class Mapa extends React.Component {
                   _ngcontent-c18=""
                   points={m.points}
                   id={m.nome}
-                  style={{ strokeWidth: "0.00810007px" }}
+                  style={{ strokeWidth: "0.008px", stroke: "#888" }}
                   onClick={e => this.handlePopoverOpen(e, m._id)}
+                  //onMouseEnter={(e) => this.handlePopoverOpen(e, m._id)}
+                  //onMouseLeave={(e) => this.handlePopoverClose()}
                 />
               </g>
 
@@ -219,7 +265,11 @@ class Mapa extends React.Component {
       
       <Grid container className={classes.containerRoot}>
         <Grid item xs={12}>
-          <CardAcre data={data}/>
+          {data ? (
+            <CardAcre data={data}/>
+          ) : (
+            <CircularProgress />
+          )}
         </Grid>
 
         <Grid item xs={12}>
@@ -231,7 +281,7 @@ class Mapa extends React.Component {
         <Grid item xs={12} style={{ display: "flex", alignItems: "center" ,padding: "2% 0" }}>
           <hr style={{ flex: 2, height: "fit-content" }}></hr>
           <Typography color="textSecondary" style={{ flex: 1 }} variant="h5">
-            Notícias 
+            NOTÍCIAS 
           </Typography>
           <hr style={{ flex: 2, height: "fit-content" }}></hr>
         </Grid>
@@ -240,8 +290,8 @@ class Mapa extends React.Component {
         {/*NOTICIAS*/}
         
           <Grid container spacing={1}>   
-            {this.state.noticias.length ? (        
-                this.state.noticias.map((item,index) => (
+            {news.length ? (        
+                news.map((item,index) => (
                   <Grid item xs={12} md={4} key={index}>
                     <a href={item.url} style={{ textDecoration: 'none' }} target="_blank">
                       <CardNews titulo={item.titulo} imagem={item.imagem} url={item.url} date={item.date}/>

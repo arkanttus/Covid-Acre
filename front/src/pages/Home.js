@@ -43,12 +43,17 @@ export default function Home() {
   const classes = useStyles();
   const [cities, setCities] = React.useState()
   const [lastUpdate, setLastUpdate] = React.useState()
+  const [news, setNews] = React.useState()
 
   const loadCities = async () => {
     try{
-      const {data} = await api.get('/all-cities/')
+      var {data} = await api.get('/all-cities/')
       setCities(data.Cidades)
       setLastUpdate(data.Update)
+
+      var {data} = await api.get('/noticias/');
+      setNews(data.noticias)
+
     }catch(ex){
       console.log(ex)
     }
@@ -58,6 +63,7 @@ export default function Home() {
     loadCities()
 
     const intervalId = setInterval(loadCities, 300000)
+    
 
     return () => clearInterval(intervalId)
 
@@ -73,7 +79,7 @@ export default function Home() {
             
             path="/"
             render={props => (
-              <Mapa {...props} dataCities={cities} lastUpdate={lastUpdate}/>
+              <Mapa {...props} dataCities={cities} dataNews={news} lastUpdate={lastUpdate}/>
             )}
           />
         </Switch>   
