@@ -74,32 +74,13 @@ class Mapa extends React.Component {
       anchorEl: null,
       noticias: [],
       cities: Cities,
-      citiesDefault: Cities
     };
     this.handlePopoverOpen = this.handlePopoverOpen.bind(this);
     this.handlePopoverClose = this.handlePopoverClose.bind(this);
     this.handleClickOutside = this.handleClickOutside.bind(this);
   }
 
-  async componentDidMount() {
-    var cities = Cities;
-
-    console.log(this.props)
-    if(this.props.dataCities) {
-      const total = this.props.dataCities['Acre'].confirmados;
-  
-      
-      cities.forEach(function(city, index) {
-  
-        const data = this.props.dataCities[city.nome]
-        if(data) {
-          city.fill = "#" + Math.round(data.confirmados/data.descartados * 16).toString(16) + "00"
-        }
-      })
-  
-      this.setState({ cities, citiesDefault: cities })
-    }
-  }
+ 
   
   handleClickOutside(e) {
     if (e.target.tagName === "svg") {
@@ -130,7 +111,7 @@ class Mapa extends React.Component {
     });
   }
 
-  static getDerivedStateFromProps(nextProps, prevState) {
+  /*static getDerivedStateFromProps(nextProps, prevState) {
 
     var cities = prevState.cities
     if(nextProps.dataCities) {
@@ -159,7 +140,7 @@ class Mapa extends React.Component {
     return {
       cities  
     };
-  }
+  }*/
 
   render() {
     const { classes } = this.props;
@@ -185,7 +166,7 @@ class Mapa extends React.Component {
             <g _ngcontent-c18="" vectorEffect="non-scaling-stroke" key={m._id}>
               <g
                 _ngcontent-c18=""
-                fill={m.fill}
+                fill={data ? data[m.nome].color : '#ccc'}
                 className={m.className}
                 codigo={m.codigo}
                 nome={m.nome}

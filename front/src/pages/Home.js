@@ -47,12 +47,12 @@ export default function Home() {
 
   const loadCities = async () => {
     try{
-      var {data} = await api.get('/all-cities/')
-      setCities(data.Cidades)
-      setLastUpdate(data.Update)
+      const responseCities = await api.get('/all-cities/')
+      setCities(responseCities.data.Cidades)
+      setLastUpdate(responseCities.data.Update)
 
-      var {data} = await api.get('/noticias/');
-      setNews(data.noticias)
+      const responseNews = await api.get('/noticias/');
+      setNews(responseNews.data.noticias)
 
     }catch(ex){
       console.log(ex)
@@ -62,7 +62,7 @@ export default function Home() {
   React.useEffect(() => {
     loadCities()
 
-    const intervalId = setInterval(loadCities, 300000)
+    const intervalId = setInterval(loadCities, 5000)
     
 
     return () => clearInterval(intervalId)

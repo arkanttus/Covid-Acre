@@ -5,6 +5,7 @@ from rest_framework import generics
 from .models import Cidade, Caso, Registro
 from django.http import HttpResponse
 from .scraping import ac24hScrap
+from .utils import color_cities
 
 
 @api_view(['GET'])
@@ -40,6 +41,8 @@ def all_cities(request):
         cidades['Acre']['descartados'] += d
         cidades['Acre']['recuperados'] += r
         cidades['Acre']['obitos'] += o
+
+    cidades = color_cities(cidades)
 
     return Response({'Cidades': cidades, 'Update': ultima_att})
 
