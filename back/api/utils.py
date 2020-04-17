@@ -7,7 +7,7 @@ def color_cities(cities):
 
     for city_key in cities:
         city = cities[city_key]
-        color = "#CCC4C4"
+        color = "#EEE"
 
         if city['confirmados'] > 0:
             relation = 1 - (city['confirmados'] / total['confirmados'])

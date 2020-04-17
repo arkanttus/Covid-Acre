@@ -62,6 +62,9 @@ const styles = {
   },
   city: {
     cursor: 'pointer'
+  },
+  mapSubtitle: {
+    border: '1px solid red'
   }
 };
 
@@ -243,8 +246,26 @@ class Mapa extends React.Component {
           ))}
         </g>
       </svg>
+
+      <Grid container className={classes.containerRoot}  style={{ marginBottom: 20 }}>
+        {/* LEGENDA DO MAPA */}
+        <Grid item xs={12} sm={4}>
+          <Typography style={{ width: 10, height: 10, border: '1px solid gray', backgroundColor: '#EEE', borderRadius: 2, display: 'inline-block' }}></Typography>
+          <label style={{ paddingLeft: 5, fontWeight: "bold" }}>Sem casos</label>
+        </Grid>
+        <Grid item xs={12} sm={4}>
+          <Typography style={{ width: 10, height: 10, border: '1px solid gray', backgroundColor: 'rgb(255, 255, 87)', borderRadius: 2, display: 'inline-block' }}></Typography>
+          <label style={{ paddingLeft: 5, fontWeight: "bold" }}>Casos notificados</label>
+        </Grid>
+        <Grid item xs={12} sm={4}>
+          <Typography style={{ width: 10, height: 10, border: '1px solid gray', backgroundColor: 'rgb(204,0,0)', borderRadius: 2, display: 'inline-block' }}></Typography>
+          <label style={{ paddingLeft: 5, fontWeight: "bold" }}>Casos confirmados</label>
+        </Grid>
+      </Grid>
       
       <Grid container className={classes.containerRoot}>
+        
+
         <Grid item xs={12}>
           {data ? (
             <CardAcre data={data}/>
