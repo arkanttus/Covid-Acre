@@ -20,8 +20,10 @@ from django.conf.urls.static import static
 from django.conf import settings
 
 from api import views as api_views
+from api2.views import atualizar_casos
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/', include('api.urls')),
+    path('update/', atualizar_casos)
 ]
