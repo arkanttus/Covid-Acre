@@ -276,7 +276,7 @@ class Mapa extends React.Component {
 
         <Grid item xs={12}>
           <Typography variant='subtitle2' component='h5'>
-            Fontes: Departamento de Vigilância em Saúde da Sesacre. Atualizado em {moment(lastUpdate).format('DD/MM/YYYY HH:mm')}
+            Fontes: Departamento de Vigilância em Saúde da Sesacre. Atualizado em {lastUpdate}
           </Typography>
         </Grid>
         
