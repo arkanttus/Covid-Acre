@@ -10,6 +10,7 @@ from django.shortcuts import render
 from .forms import ValoresForm
 from django.utils import timezone
 from django.contrib.auth.decorators import login_required
+from django.db.models import Sum
 
 @api_view(['GET'])
 def all_cities(request):
@@ -21,7 +22,7 @@ def all_cities(request):
         'suspeitos': 0,
         'confirmados': 0,
         'descartados': 0,
-        'recuperados': Complemento.objects.get(nome="Recuperados").valor,
+        'recuperados': 0,
         'obitos': 0
     }
 
@@ -31,12 +32,14 @@ def all_cities(request):
             "suspeitos": cidade.suspeitos,
             "confirmados": cidade.confirmados,
             "descartados": cidade.descartados,
+            "recuperados": cidade.recuperados,
             "obitos": cidade.obitos,
         }
        
         cidades['Acre']['suspeitos'] += cidade.suspeitos
         cidades['Acre']['confirmados'] += cidade.confirmados
         cidades['Acre']['descartados'] += cidade.descartados
+        cidades['Acre']['recuperados'] += cidade.recuperados
         cidades['Acre']['obitos'] += cidade.obitos
 
     cidades = color_cities(cidades)

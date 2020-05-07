@@ -22,9 +22,13 @@ def update_cities_from_block(lines, lines2):
                 values = new_line.split(" ")
                 if values[3] != '-':
                     city.recuperados = int(values[3])
+                else:
+                    city.recuperados = 0
 
                 if values[4] != '-':
                     city.obitos = int(values[4])
+                else:
+                    city.obitos = 0
 
                 break
 
