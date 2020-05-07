@@ -1,4 +1,14 @@
 '''
+Retorna um hexadecimal, dado uma porcentagem Relation e o range maximo
+da cor Percent_Color
+'''
+def make_color(relation, percent_color):
+    calculate_hex = hex(round(relation * percent_color))
+    splits = calculate_hex[2:]
+    return '0' + splits if len(splits) == 1 else splits
+
+
+'''
 Calcula a porcentagem de casos em cada municipio em relação ao estado e 
 configura as devidas cores de acordo com essa porcentagem 
 '''
@@ -13,8 +23,7 @@ def color_cities(cities):
             relation = 1 - (city['confirmados'] / total['confirmados'])
             
             #calculate the values to green and blue acording with the relation value
-            calculate_g_b = hex(round(relation * 196))
-            split_color = calculate_g_b[2:]
+            split_color = make_color(relation, 100)
 
             color = "#cc" + split_color + split_color
 
@@ -24,8 +33,7 @@ def color_cities(cities):
 
             relation = 1 - (city_values / total_values)
 
-            calculate_b = hex(round(relation * 90))
-            split_color = calculate_b[2:]
+            split_color = make_color(relation, 120)
 
             color = "#ffff" + split_color
         
@@ -34,3 +42,4 @@ def color_cities(cities):
     cities['Acre'] = total
     
     return cities
+
