@@ -34,7 +34,7 @@ def update_cities_from_block(lines, lines2):
 def populate():
     cidades = ["Acrelândia", "Assis Brasil", "Brasileia", "Bujari", "Capixaba", "Cruzeiro do Sul", "Epitaciolândia", "Feijó", "Mâncio Lima", "Manoel Urbano", "Jordão", "M. Thaumaturgo", "Plácido de Castro", "Porto Acre", "Porto Walter", "Rio Branco", "Rodrigues Alves", "Santa Rosa do Purus", "Sena Madureira", "Senador Guiomard", "Tarauacá", "Xapuri"]
     for c in cidades:
-        cidade = Cidade(nome=c, suspeitos=0, confirmados=0, descartados=0, obitos=0)
+        cidade = Cidade(nome=c, suspeitos=0, confirmados=0, descartados=0, obitos=0, recuperados=0)
         cidade.save()
 
     Complemento(nome="Atualizado", valor=timezone.now().strftime("%d/%m/%Y %H:%M")).save()
