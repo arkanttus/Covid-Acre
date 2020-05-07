@@ -33,7 +33,7 @@ def color_cities(cities):
 
             relation = 1 - (city_values / total_values)
 
-            split_color = make_color(relation, 90)
+            split_color = make_color(relation, 120)
 
             color = "#ffff" + split_color
         
