@@ -5,6 +5,7 @@ class Cidade(models.Model):
     suspeitos = models.IntegerField()
     confirmados = models.IntegerField()
     descartados = models.IntegerField()
+    recuperados = models.IntegerField()
     obitos = models.IntegerField()
 
     def __str__(self):

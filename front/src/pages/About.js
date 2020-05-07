@@ -79,10 +79,10 @@ export default function About(){
                     </Typography>
                 </Grid>
 
-                <Avatar name='Ítalo Oliveira' git='https://github.com/bruunotrindade' 
+                <Avatar name='Ítalo Oliveira' git='https://github.com/arkanttus' 
                         img='images/italo.jpeg' styles={classes}/>
                 
-                <Avatar name='Bruno Trindade' git='https://github.com/arkanttus' 
+                <Avatar name='Bruno Trindade' git='https://github.com/bruunotrindade' 
                         img='images/bruno.jpeg' styles={classes}/>
 
                 <Avatar name='Thalisson Bandeira' git='https://github.com/Tony-Starkus' 

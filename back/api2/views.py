@@ -48,11 +48,7 @@ def atualizar_casos(request):
     if request.POST:
         form = ValoresForm(request.POST)
         if form.is_valid():
-            recuperados = Complemento.objects.get(nome="Recuperados")
-            recuperados.valor = form.cleaned_data['recuperados']
-            recuperados.save()
-
-            update_cities_from_block(form.cleaned_data['conteudo'])
+            update_cities_from_block(form.cleaned_data['conteudo'], form.cleaned_data['conteudo2'])
             atualizado = Complemento.objects.get(nome="Atualizado")
             atualizado.valor=timezone.now().strftime("%d/%m/%Y %H:%M")
             atualizado.save()

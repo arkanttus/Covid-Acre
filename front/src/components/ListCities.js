@@ -90,12 +90,12 @@ const Item = props => {
             </ListItemIcon>
             <ListItemText primary={`Confirmados: ${data ? data.confirmados : 0}`} />
           </ListItem>
-          {/*<ListItem button className={classes.nested}>
+          <ListItem button className={classes.nested}>
             <ListItemIcon>
               <Recuperados style={{ color: '#454545' }} />
             </ListItemIcon>
             <ListItemText primary={`Recuperados: ${data ? data.recuperados : 0}`} />
-          </ListItem>*/}
+          </ListItem>
           <ListItem button className={classes.nested}>
             <ListItemIcon>
               <Descartado style={{ color: '#4caf50' }} />
