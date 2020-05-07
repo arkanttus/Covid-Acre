@@ -13,7 +13,7 @@ def color_cities(cities):
             relation = 1 - (city['confirmados'] / total['confirmados'])
             
             #calculate the values to green and blue acording with the relation value
-            calculate_g_b = hex(round(relation * 196))
+            calculate_g_b = hex(round(relation * 100))
             split_color = calculate_g_b[2:]
 
             color = "#cc" + split_color + split_color
