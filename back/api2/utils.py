@@ -41,4 +41,4 @@ def populate():
         cidade = Cidade(nome=c, suspeitos=0, confirmados=0, descartados=0, obitos=0, recuperados=0)
         cidade.save()
 
-    Complemento(nome="Atualizado", valor=timezone.now().strftime("%d/%m/%Y %H:%M")).save()
+    Complemento(nome="Atualizado", valor=timezone.localtime(timezone.now()).strftime("%d/%m/%Y %H:%M")).save()
