@@ -3,10 +3,10 @@ from django.utils import timezone
 
 def update_cities_from_block(lines, lines2):
     cities = Cidade.objects.all()
-    for line in lines.replace(".","").split("\n"):
+    for line in lines.split("\n"):
         for city in cities:
             if line.startswith(city.nome):
-                new_line = line.replace(city.nome+" ", "")
+                new_line = line.replace(city.nome+" ", "").replace(".","")
 
                 values = new_line.split(" ")
                 city.confirmados = int(values[1])
@@ -14,10 +14,10 @@ def update_cities_from_block(lines, lines2):
                 city.suspeitos = int(values[3])
                 break
 
-    for line in lines2.replace(".","").split("\n"):
+    for line in lines2.split("\n"):
         for city in cities:
             if line.startswith(city.nome):
-                new_line = line.replace(city.nome+" ", "")
+                new_line = line.replace(city.nome+" ", "").replace(".","")
 
                 values = new_line.split(" ")
                 if values[3] != '-':
