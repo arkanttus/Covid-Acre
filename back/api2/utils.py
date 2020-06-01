@@ -20,13 +20,13 @@ def update_cities_from_block(lines, lines2):
                 new_line = line.replace(city.nome+" ", "").replace(".","").replace("\r", "")
 
                 values = new_line.split(" ")
-                if values[3] != '-':
-                    city.recuperados = int(values[3])
+                if values[2] != '-':
+                    city.recuperados = int(values[2])
                 else:
                     city.recuperados = 0
 
-                if values[4] != '-':
-                    city.obitos = int(values[4])
+                if values[3] != '-':
+                    city.obitos = int(values[3])
                 else:
                     city.obitos = 0
 
